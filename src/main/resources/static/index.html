@@ -1,44 +1,67 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IoT - Auth</title>
-  <link rel="stylesheet" href="/styles.css" />
+  <meta charset="UTF-8">
+  <title>CAPSTONE IoT Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<div class="container">
-  <h1>IoT Project</h1>
 
-  <div class="grid">
-    <div class="card">
-      <h2>Sign Up</h2>
+<header class="topbar">
+  <div class="logo">IoT</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#login">Login</a>
+    <a href="#signup" class="btn-red">Sign Up</a>
+  </nav>
+</header>
 
-      <input id="su_name" placeholder="Name" />
-      <input id="su_surname" placeholder="Surname" />
-      <input id="su_email" placeholder="Email" type="email" />
-      <input id="su_phone" placeholder="Phone Number" />
-      <input id="su_address" placeholder="Address" />
-      <input id="su_password" placeholder="Password" type="password" />
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
 
-      <button id="btnSignup">Create Account</button>
-    </div>
+  <div class="hero-content">
+    <h1>CAPSTONE Project</h1>
+    <h3>VEDAT AYAZ • MUSTAFA ERGUT</h3>
 
-    <div class="card">
-      <h2>Login</h2>
+    <p>
+      İTÜ Cihazları Capstone Projesine Hoş Geldiniz.
+      Devam etmek için oturum açın veya şimdi kaydolun.
+    </p>
 
-      <input id="li_email" placeholder="Email" type="email" />
-      <input id="li_password" placeholder="Password" type="password" />
-
-      <button id="btnLogin">Login</button>
+    <div class="hero-actions">
+      <a href="#login" class="btn-red">Oturum Aç</a>
+      <a href="#signup" class="btn-blue">Şimdi Kaydolun</a>
     </div>
   </div>
+</section>
 
-  <div class="result">
-    <div class="result-title">Result</div>
-    <pre id="resultText">-</pre>
-  </div>
-</div>
+<section id="login" class="section">
+  <h2>Login</h2>
+
+  <input id="li_email" type="email" placeholder="Email">
+  <input id="li_password" type="password" placeholder="Password">
+
+  <button id="btnLogin" class="btn-red">Login</button>
+</section>
+
+<section id="signup" class="section dark">
+  <h2>Sign Up</h2>
+
+  <input id="su_name" placeholder="Name">
+  <input id="su_surname" placeholder="Surname">
+  <input id="su_email" type="email" placeholder="Email">
+  <input id="su_phone" placeholder="Phone">
+  <input id="su_address" placeholder="Address">
+  <input id="su_password" type="password" placeholder="Password">
+
+  <button id="btnSignup" class="btn-red">Create Account</button>
+</section>
+
+<section class="section">
+  <pre id="resultText">-</pre>
+</section>
 
 <script src="/app.js"></script>
 </body>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>IoT Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="logo">IoT Dashboard</div>
+
+    <div class="profile">
+        Mustafa Ergut ▾
+        <div class="dropdown">
+            <a href="#">Profil Bilgilerim</a>
+            <a href="#" id="logout">Çıkış</a>
+        </div>
+    </div>
+</header>
+
+<section class="section dashboard">
+    <h1>IoT Device Management</h1>
+
+    <div class="card">
+        <h3>Add Device</h3>
+        <input placeholder="Device Name">
+        <input placeholder="Device Location">
+        <button class="btn-red">Add Device</button>
+    </div>
+
+    <div class="card">
+        <h3>Active Devices</h3>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Last Seen</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Home Thermostat</td>
+                <td>Sensor</td>
+                <td>Indoor</td>
+                <td class="ok">Active</td>
+                <td>1 min ago</td>
+            </tr>
+            <tr>
+                <td>Office Camera</td>
+                <td>Camera</td>
+                <td>Outdoor</td>
+                <td class="off">Offline</td>
+                <td>10 min ago</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script>
+    document.getElementById("logout").onclick = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+    };
+</script>
+
+</body>
+</html>

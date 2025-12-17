@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 
 @Configuration
 @EnableWebSecurity
@@ -28,29 +29,40 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                // CSRF (şimdilik kapalı: fetch ile rahat POST + JWT stateless)
+                // CSRF kapalı (JWT + fetch için doğru)
                 .csrf(AbstractHttpConfigurer::disable)
 
-                // Default login UI kapalı (Please sign in çıkmasın)
+                // Default Spring Security login UI kapalı
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
 
                 // JWT => stateless
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sm ->
+                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
 
-                // Endpoint policy (kurumsal erişim kuralları)
+                // Yetkilendirme kuralları
                 .authorizeHttpRequests(auth -> auth
-                        // UI statik dosyaları
-                        .requestMatchers("/", "/index.html", "/app.js", "/styles.css").permitAll()
-                        // Auth endpointleri public
+                        // ✅ static (PathRequest)
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+
+                        // ✅ fallback: root seviyedeki dosyaların (senin yapında var)
+                        .requestMatchers("/", "/index.html", "/dashboard.html", "/styles.css", "/app.js").permitAll()
+                        .requestMatchers("/img/**", "/css/**", "/js/**", "/assets/**", "/favicon.ico").permitAll()
+
+                        // ✅ auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        // Diğer her şey token ister
+
                         .anyRequest().authenticated()
                 )
 
-                // JWT Filter'ı zincire ekle (Authorization: Bearer ... okunsun)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                // JWT Filter
+                .addFilterBefore(
+                        jwtAuthFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }

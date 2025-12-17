@@ -1,27 +1,119 @@
-body { font-family: Arial, sans-serif; background: #f6f7fb; margin: 0; }
-.container { max-width: 960px; margin: 40px auto; padding: 16px; }
-h1 { margin: 0 0 18px; }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0f17;
+    color: white;
+}
 
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.card { background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.card h2 { margin: 0 0 10px; }
+.topbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.7);
+    z-index: 10;
+}
+
+.logo {
+    font-size: 22px;
+    color: #e50914;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    margin-left: 16px;
+    text-decoration: none;
+}
+
+.hero {
+    height: 100vh;
+    position: relative;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url("/img/iot-bg.jpg") center/cover no-repeat;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+}
+
+.hero-content {
+    position: relative;
+    top: 35%;
+    text-align: center;
+}
+
+.hero-actions a {
+    margin: 10px;
+    padding: 12px 24px;
+    border-radius: 6px;
+}
+
+.btn-red {
+    background: #e50914;
+    color: white;
+}
+
+.btn-blue {
+    background: #0066ff;
+    color: white;
+}
+
+.section {
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.section.dark {
+    background: #070a10;
+}
 
 input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    display: block;
+    margin: 10px auto;
+    padding: 12px;
+    width: 280px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    border: 0;
-    border-radius: 8px;
+    padding: 12px 24px;
+    border: none;
     cursor: pointer;
 }
 
-.result { margin-top: 16px; background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-.result-title { font-weight: bold; margin-bottom: 8px; }
-pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
+.dashboard table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dashboard th, td {
+    border-bottom: 1px solid #333;
+    padding: 10px;
+}
+
+.ok { color: #00ff88; }
+.off { color: #ff4444; }
+
+.profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: #111;
+}
+
+.profile:hover .dropdown {
+    display: block;
+}
