@@ -25,6 +25,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+    // ✅ STATIC + AUTH + ROOT isteklerinde bu filter çalışmasın (çok önemli)
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+
+        // auth endpointleri
+        if (path.startsWith("/api/auth/")) return true;
+
+        // static kaynaklar (senin yapına göre)
+        if (path.equals("/") || path.equals("/index.html") || path.equals("/dashboard.html")) return true;
+        if (path.equals("/styles.css") || path.equals("/app.js")) return true;
+        if (path.startsWith("/img/")) return true;
+
+        // olası ekler
+        if (path.startsWith("/css/") || path.startsWith("/js/") || path.startsWith("/assets/")) return true;
+        if (path.equals("/favicon.ico")) return true;
+
+        return false;
+    }
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -34,16 +54,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
-        // 1) Token yoksa veya format yanlışsa devam et
+        // Token yoksa devam
         if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2) "Bearer " kısmını at
         String token = header.substring(7);
 
-        // 3) Token'dan email (subject) çıkar
         String email;
         try {
             email = jwtService.extractEmail(token);
@@ -52,24 +70,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 4) Daha önce auth set edilmemişse set et
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // DB’den user çek
             UserDetails user = userDetailsService.loadUserByUsername(email);
 
-            // Token geçerliyse SecurityContext'e koy
             if (jwtService.isTokenValid(token, user)) {
                 var authToken = new UsernamePasswordAuthenticationToken(
                         user, null, user.getAuthorities()
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
-        // 5) request'i devam ettir
         filterChain.doFilter(request, response);
     }
 }
